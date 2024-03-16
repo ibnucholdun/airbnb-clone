@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import {
   RegisterLink,
   LoginLink,
+  LogoutLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import {
   DropdownMenu,
@@ -10,10 +12,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
 import React from "react";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 type Props = {};
 
-const UserNav = (props: Props) => {
+const UserNav = async (props: Props) => {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -21,19 +26,32 @@ const UserNav = (props: Props) => {
           <MenuIcon className="w-6 h-6 lg:w-5 lg:h-5" />
 
           <img
-            src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+            src={
+              user?.picture ??
+              "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+            }
             alt="Image of the User"
             className="rounded-full w-8 h-8 lg:block hidden"
           />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[200px]">
-        <DropdownMenuItem>
-          <RegisterLink className="w-full">Register</RegisterLink>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <LoginLink className="w-full">Login</LoginLink>
-        </DropdownMenuItem>
+        {user ? (
+          <>
+            <DropdownMenuItem>
+              <LogoutLink className="w-full">Logout</LogoutLink>
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <>
+            <DropdownMenuItem>
+              <RegisterLink className="w-full">Register</RegisterLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <LoginLink className="w-full">Login</LoginLink>
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

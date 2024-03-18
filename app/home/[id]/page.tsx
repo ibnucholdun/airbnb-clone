@@ -7,6 +7,11 @@ import { Separator } from "@/components/ui/separator";
 import CategoryShowcase from "@/app/components/CategoryShowcase";
 import HomeMap from "@/app/components/HomeMap";
 import SelectCalender from "@/app/components/SelectCalender";
+import { createReservation } from "@/app/action";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ReservationSubmitButton } from "@/app/components/SubmitButtons";
 
 type Props = {
   params: {
@@ -30,6 +35,11 @@ const getData = async (homeId: string) => {
       price: true,
       photo: true,
       country: true,
+      Reservation: {
+        where: {
+          homeId: homeId,
+        },
+      },
       user: {
         select: {
           profileImage: true,
@@ -44,6 +54,8 @@ const HomeRoute: React.FC<Props> = async ({ params }) => {
   const data = await getData(params.id);
   const { getCountryByValue } = useCountries();
   const country = getCountryByValue(data?.country as string);
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
 
   return (
     <div className="w-[75%] mx-auto mt-10 mb-12">
@@ -57,7 +69,7 @@ const HomeRoute: React.FC<Props> = async ({ params }) => {
           className="rounded-lg h-full object-cover w-full"
         />
       </div>
-      <div className="flex justify-between gap-x24 mt-8">
+      <div className="flex justify-between gap-x-24 mt-8">
         <div className="w-2/3 ">
           <h3 className="text-xl font-medium">
             {country?.flag} {country?.label} / {country?.region}
@@ -95,7 +107,18 @@ const HomeRoute: React.FC<Props> = async ({ params }) => {
           <HomeMap locationValue={country?.value as string} />
         </div>
 
-        <SelectCalender />
+        <form action={createReservation}>
+          <input type="hidden" name="homeId" value={params.id} />
+          <input type="hidden" name="userId" value={user?.id} />
+          <SelectCalender reservation={data?.Reservation} />
+          {user?.id ? (
+            <ReservationSubmitButton />
+          ) : (
+            <Button className="w-full" asChild>
+              <Link href="/api/auth/login">Make a Reservation</Link>
+            </Button>
+          )}
+        </form>
       </div>
     </div>
   );

@@ -32,5 +32,5 @@ export async function GET() {
     });
   }
 
-  return NextResponse.redirect("https://airbnb-clone-tau-liart.vercel.app");
+  return NextResponse.redirect("https://my-clone-abnb.vercel.app");
 }

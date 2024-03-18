@@ -2,12 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import useCountries from "../lib/getCountries";
+import { AddToFavoriteButton, DeleteFormFavoriteButton } from "./SubmitButtons";
+import { addToFavorite, deleteFormFavorite } from "../action";
 
 type Props = {
   imagePath: string;
   description: string;
   location: string;
   price: number;
+  userId: string | undefined;
+  isInFavoriteList?: boolean;
+  favoriteId?: string;
+  homeId?: string;
+  pathname?: string;
 };
 
 const ListingCard: React.FC<Props> = ({
@@ -15,6 +22,11 @@ const ListingCard: React.FC<Props> = ({
   description,
   location,
   price,
+  userId,
+  isInFavoriteList,
+  favoriteId,
+  homeId,
+  pathname,
 }) => {
   const { getCountryByValue } = useCountries();
   const country = getCountryByValue(location);
@@ -27,6 +39,26 @@ const ListingCard: React.FC<Props> = ({
           fill
           className="rounded-lg h-full object-cover "
         />
+
+        {userId && (
+          <div className="z-10 absolute top-2 right-2">
+            {isInFavoriteList ? (
+              <form action={deleteFormFavorite}>
+                <input type="hidden" name="favoriteId" value={favoriteId} />
+                <input type="hidden" name="userId" value={userId} />
+                <input type="hidden" name="pathname" value={pathname} />
+                <DeleteFormFavoriteButton />
+              </form>
+            ) : (
+              <form action={addToFavorite}>
+                <input type="hidden" name="homeId" value={homeId} />
+                <input type="hidden" name="userId" value={userId} />
+                <input type="hidden" name="pathname" value={pathname} />
+                <AddToFavoriteButton />
+              </form>
+            )}
+          </div>
+        )}
       </div>
 
       <Link href={"/"} className="mt-2">

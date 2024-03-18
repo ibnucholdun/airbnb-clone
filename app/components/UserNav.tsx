@@ -54,19 +54,19 @@ const UserNav = async (props: Props) => {
               </form>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <LogoutLink className="w-full">
-                <Link href="/my-homes">My Listings</Link>
-              </LogoutLink>
+              <Link href="/my-homes" className="w-full">
+                My Listings
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <LogoutLink className="w-full">
-                <Link href="/favorites">My Favorites</Link>
-              </LogoutLink>
+              <Link href="/favorites" className="w-full">
+                My Favorites
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <LogoutLink className="w-full">
-                <Link href="/reservations">My Reservations</Link>
-              </LogoutLink>
+              <Link href="/reservations" className="w-full">
+                My Reservations
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>

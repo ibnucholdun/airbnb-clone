@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import CreationSubmit from "./SubmitButtons";
+import { CreationSubmit } from "./SubmitButtons";
 
 type Props = {};
 

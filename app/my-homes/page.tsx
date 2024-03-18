@@ -5,6 +5,11 @@ import { redirect } from "next/navigation";
 import NoItems from "../components/NoItems";
 import ListingCard from "../components/ListingCard";
 import { unstable_noStore as noStore } from "next/cache";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Airbnb Clone - My Homes",
+};
 
 type Props = {};
 

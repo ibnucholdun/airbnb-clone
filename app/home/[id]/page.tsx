@@ -13,6 +13,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ReservationSubmitButton } from "@/app/components/SubmitButtons";
 import { unstable_noStore as noStore } from "next/cache";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Airbnb Clone - Home",
+};
 
 type Props = {
   params: {

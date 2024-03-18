@@ -12,6 +12,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ReservationSubmitButton } from "@/app/components/SubmitButtons";
+import { unstable_noStore as noStore } from "next/cache";
 
 type Props = {
   params: {
@@ -20,6 +21,7 @@ type Props = {
 };
 
 const getData = async (homeId: string) => {
+  noStore();
   const data = await prisma.home.findUnique({
     where: {
       id: homeId,
